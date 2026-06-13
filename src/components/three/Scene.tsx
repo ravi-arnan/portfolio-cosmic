@@ -83,7 +83,7 @@ function BlackholeGroup() {
 function StarsRig() {
   const groupRef = useRef<Group>(null);
 
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     const group = groupRef.current;
     if (!group) return;
     group.rotation.y = MathUtils.damp(group.rotation.y, choreo.spin * 0.22, DAMP, delta);

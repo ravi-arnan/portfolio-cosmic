@@ -1,9 +1,9 @@
 ---
-import { Layout, Server, Shield } from '@lucide/astro';
+import { AppWindow, Server, Shield } from '@lucide/astro';
 import SectionHeading from '../SectionHeading.astro';
 import { skillCategories } from '../../data/skills';
 
-const categoryIcons = { Frontend: Layout, Backend: Server, Security: Shield };
+const categoryIcons = { Frontend: AppWindow, Backend: Server, Security: Shield };
 
 /* Full literal class strings: Tailwind v4 only generates statically present classes */
 const accentClasses = {
