@@ -1,0 +1,129 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+html {
+  background-color: var(--color-void);
+  color: var(--color-stardust);
+  font-family: var(--font-display);
+  scroll-behavior: smooth;
+}
+
+/* Themed scrollbar: thin ember thumb floating on the void */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-ember), var(--color-ember-dim));
+  border-radius: 8px;
+  /* void-colored border makes the thumb look slimmer and inset */
+  border: 2px solid var(--color-void);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ember);
+}
+
+/* Firefox only: it ignores the WebKit pseudo-elements above */
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ember-dim) var(--color-void);
+  }
+}
+
+/* Lenis takes over scrolling when active */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-ember);
+  color: var(--color-void);
+}
+
+/* Subtle film grain for atmosphere, pure CSS */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Cinematic vignette, replaces a postprocessing pass for free */
+.vignette::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.45) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Scene stages: on capable screens each section becomes a tall scroll
+   track whose content stays pinned center screen; scroll.ts fades it
+   in, holds, then dissolves it. On mobile/reduced-motion these styles
+   never apply and sections flow normally. */
+.scene-content {
+  padding-block: var(--spacing-section);
+}
+
+.carousel-stage {
+  padding-block: var(--spacing-section);
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .scene-stage {
+    height: 220vh;
+  }
+
+  .scene-pin {
+    position: sticky;
+    top: 0;
+    display: flex;
+    height: 100vh;
+    align-items: center;
+  }
+
+  .scene-content {
+    padding-block: 0;
+  }
+
+  .carousel-stage {
+    height: 380vh;
+    padding-block: 0;
+  }
+
+  .carousel-pin {
+    position: sticky;
+    top: 0;
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+}

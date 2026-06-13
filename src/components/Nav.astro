@@ -1,0 +1,35 @@
+---
+import { site } from '../data/site';
+---
+
+<header class="fixed inset-x-0 top-0 z-50">
+  <nav
+    aria-label="Main navigation"
+    class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
+  >
+    <a href="#hero" class="flex items-center gap-2">
+      <img src="/RaviLogo.png" alt="" width="28" height="28" />
+      <span class="font-mono text-sm text-starlight">ravi@arnan:~$</span>
+    </a>
+    <ul class="hidden items-center gap-8 font-mono text-xs tracking-wider text-stardust md:flex">
+      <li><a class="transition-colors hover:text-ember" href="#about">about</a></li>
+      <li><a class="transition-colors hover:text-ember" href="#work">work</a></li>
+      <li><a class="transition-colors hover:text-ember" href="#skills">skills</a></li>
+      <li><a class="transition-colors hover:text-ember" href="#contact">contact</a></li>
+      <li>
+        <a
+          class="rounded-full border border-ember/40 px-4 py-1.5 text-ember transition-colors hover:bg-ember hover:text-void"
+          href={site.socials.github}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          github
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-void/90 to-transparent"
+  >
+  </div>
+</header>

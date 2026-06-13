@@ -1,0 +1,71 @@
+---
+/**
+ * Page-wide cosmic backdrop so the atmosphere continues after the hero.
+ * Three star layers generated at build time (seeded, deterministic) move
+ * at different parallax speeds via scroll.ts; nebula glows add depth.
+ * Pure transform animation, fully compositor-friendly.
+ */
+interface LayerConfig {
+  seed: number;
+  count: number;
+  speed: number;
+  minR: number;
+  maxR: number;
+  tinted: boolean;
+}
+
+function makeRandom(seed: number) {
+  let state = seed;
+  return () => {
+    state = (state * 1664525 + 1013904223) % 4294967296;
+    return state / 4294967296;
+  };
+}
+
+function starCircles({ seed, count, minR, maxR, tinted }: LayerConfig): string {
+  const random = makeRandom(seed);
+  const tints = ['#ececf7', '#ececf7', '#ececf7', '#ff9d3c', '#3ce0ff'];
+  let circles = '';
+  for (let i = 0; i < count; i += 1) {
+    const cx = (random() * 1440).toFixed(1);
+    const cy = (random() * 2000).toFixed(1);
+    const r = (minR + random() * (maxR - minR)).toFixed(2);
+    const opacity = (0.25 + random() * 0.6).toFixed(2);
+    const fill = tinted ? tints[Math.floor(random() * tints.length)] : '#ececf7';
+    circles += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}" opacity="${opacity}"/>`;
+  }
+  return circles;
+}
+
+const layers: LayerConfig[] = [
+  { seed: 11, count: 110, speed: 4, minR: 0.5, maxR: 1.0, tinted: false },
+  { seed: 23, count: 70, speed: 10, minR: 0.7, maxR: 1.4, tinted: false },
+  { seed: 47, count: 45, speed: 18, minR: 0.9, maxR: 1.8, tinted: true },
+];
+---
+
+<div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
+  <!-- Nebula glows -->
+  <div
+    class="absolute -top-1/4 -left-1/4 h-[70vh] w-[70vw] rounded-full opacity-[0.07]"
+    style="background: radial-gradient(circle, #ff9d3c 0%, transparent 70%); filter: blur(80px)"
+  >
+  </div>
+  <div
+    class="absolute -right-1/4 bottom-0 h-[60vh] w-[60vw] rounded-full opacity-[0.06]"
+    style="background: radial-gradient(circle, #3ce0ff 0%, transparent 70%); filter: blur(80px)"
+  >
+  </div>
+
+  {
+    layers.map((layer) => (
+      <svg
+        class="absolute inset-x-0 top-0 h-[140%] w-full"
+        viewBox="0 0 1440 2000"
+        preserveAspectRatio="xMidYMid slice"
+        data-parallax={layer.speed}
+        set:html={starCircles(layer)}
+      />
+    ))
+  }
+</div>

@@ -1,0 +1,27 @@
+---
+interface Props {
+  index: string;
+  title: string;
+  id?: string;
+}
+
+const { index, title, id } = Astro.props;
+---
+
+<div class="mb-14" data-reveal>
+  <div class="flex items-baseline gap-4">
+    <span class="font-mono text-sm text-ember" aria-hidden="true">{index} //</span>
+    <h2
+      id={id}
+      class="font-display font-semibold text-starlight"
+      style="font-size: var(--text-section)"
+    >
+      {title}
+    </h2>
+  </div>
+  <div
+    class="mt-5 h-px w-full bg-gradient-to-r from-ember/60 via-nebula to-transparent"
+    data-rule
+  >
+  </div>
+</div>

@@ -1,0 +1,56 @@
+---
+import { Layout, Server, Shield } from '@lucide/astro';
+import SectionHeading from '../SectionHeading.astro';
+import { skillCategories } from '../../data/skills';
+
+const categoryIcons = { Frontend: Layout, Backend: Server, Security: Shield };
+
+/* Full literal class strings: Tailwind v4 only generates statically present classes */
+const accentClasses = {
+  ion: { border: 'hover:border-ion/40', text: 'text-ion', chip: 'border-ion/20' },
+  ember: { border: 'hover:border-ember/40', text: 'text-ember', chip: 'border-ember/20' },
+  rose: { border: 'hover:border-rose-400/40', text: 'text-rose-400', chip: 'border-rose-400/20' },
+} as const;
+---
+
+<section id="skills" data-stage="scene" class="scene-stage relative">
+  <div class="scene-pin">
+    <div class="scene-content relative mx-auto w-full max-w-6xl px-6" data-scene-content>
+  <SectionHeading index="04" title="Skills" />
+
+  <div class="grid gap-6 md:grid-cols-3" data-reveal-group>
+    {
+      skillCategories.map((category) => {
+        const Icon = categoryIcons[category.title as keyof typeof categoryIcons];
+        const accent = accentClasses[category.accent];
+        return (
+          <div
+            class:list={[
+              'rounded-2xl border border-nebula bg-abyss/80 backdrop-blur-[2px] p-6 transition-colors',
+              accent.border,
+            ]}
+          >
+            <div class="mb-5 flex items-center gap-3">
+              <Icon size={20} class={accent.text} />
+              <h3 class="font-display text-lg font-semibold text-starlight">{category.title}</h3>
+            </div>
+            <ul class="flex flex-wrap gap-2">
+              {category.skills.map((skill) => (
+                <li
+                  class:list={[
+                    'rounded-full border px-3 py-1.5 font-mono text-xs text-stardust',
+                    accent.chip,
+                  ]}
+                >
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })
+    }
+  </div>
+    </div>
+  </div>
+</section>

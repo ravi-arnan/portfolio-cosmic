@@ -1,0 +1,60 @@
+---
+import { ArrowDown } from '@lucide/astro';
+import { site } from '../../data/site';
+---
+
+<!-- 300vh scroll stage; collapses to 100vh on mobile / reduced motion -->
+<section id="hero" class="hero-stage relative">
+  <div class="sticky top-0 h-screen overflow-hidden">
+    <!-- Static poster: the fallback backdrop and LCP on mobile; the live
+         scene (fixed page-wide layer) fades this out once it renders -->
+    <img
+      id="hero-poster"
+      src="/poster-blackhole.webp"
+      alt=""
+      fetchpriority="high"
+      class="absolute inset-0 z-0 h-full w-full object-cover transition-opacity duration-1000"
+    />
+
+    <!-- Headline, fades out as the camera falls in -->
+    <div
+      class="relative z-20 flex h-full flex-col items-center justify-center px-6 text-center"
+      data-hero-copy
+    >
+      <p class="mb-6 font-mono text-xs tracking-[0.3em] text-ion uppercase" data-reveal>
+        {site.tagline}
+      </p>
+      <p class="mb-3 font-mono text-sm text-ember" data-reveal>$ whoami</p>
+      <h1
+        class="font-display leading-none font-bold whitespace-nowrap text-starlight"
+        style="font-size: var(--text-hero)"
+        data-reveal
+      >
+        Ravi Arnan Irianto
+      </h1>
+      <p class="mt-6 max-w-md font-mono text-sm text-stardust" data-reveal>
+        dev + security // {site.location}
+      </p>
+      <a
+        href="#about"
+        class="group mt-12 inline-flex items-center gap-2 font-mono text-xs text-stardust transition-colors hover:text-ember"
+        data-reveal
+      >
+        scroll into the void
+        <ArrowDown size={14} class="transition-transform group-hover:translate-y-1" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-stage {
+    height: 300vh;
+  }
+
+  @media (max-width: 767px), (prefers-reduced-motion: reduce) {
+    .hero-stage {
+      height: 100vh;
+    }
+  }
+</style>

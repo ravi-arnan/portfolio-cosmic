@@ -1,0 +1,106 @@
+---
+import { Lock, ExternalLink, ArrowRight } from '@lucide/astro';
+import { Image } from 'astro:assets';
+import SectionHeading from '../SectionHeading.astro';
+import SocialIcon from '../SocialIcon.astro';
+import { projects } from '../../data/projects';
+import { site } from '../../data/site';
+---
+
+<!-- Desktop: pinned stage where vertical scroll slides the track right to
+     left. Mobile/reduced-motion: a normal vertical list. -->
+<section id="work" data-stage="carousel" class="carousel-stage relative">
+  <div class="carousel-pin">
+    <div class="mx-auto w-full max-w-6xl px-6">
+      <SectionHeading index="02" title="Selected Work" />
+    </div>
+
+    <div
+      class="carousel-track flex flex-col gap-8 px-6 md:w-max md:flex-row md:items-stretch md:gap-10 md:pr-[12vw] md:pl-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))]"
+      data-carousel-track
+      data-reveal-group
+    >
+      {
+        projects.map((project, i) => (
+          <article class="group relative flex flex-col overflow-hidden rounded-2xl border border-nebula bg-abyss/80 backdrop-blur-[2px] transition-colors hover:border-ember/40 md:w-[42vw] md:max-w-[620px] md:shrink-0">
+            <div class="aspect-video overflow-hidden">
+              <Image
+                src={project.image}
+                alt={`Screenshot of ${project.title}`}
+                width={720}
+                loading={i < 2 ? 'eager' : 'lazy'}
+                class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+              />
+            </div>
+            <div class="flex grow flex-col p-6">
+              <div class="mb-2 flex items-center justify-between gap-4">
+                <h3 class="font-display text-xl font-semibold text-starlight">{project.title}</h3>
+                {project.confidential ? (
+                  <span
+                    class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-nebula px-3 py-1 font-mono text-[10px] tracking-wider text-stardust/70 uppercase"
+                    title="Source code is confidential"
+                  >
+                    <Lock size={11} />
+                    confidential
+                  </span>
+                ) : (
+                  <span class="flex shrink-0 items-center gap-3">
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${project.title} on GitHub`}
+                        class="text-stardust transition-colors hover:text-ember"
+                      >
+                        <SocialIcon name="github" size={18} />
+                      </a>
+                    )}
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${project.title} live site`}
+                        class="text-stardust transition-colors hover:text-ember"
+                      >
+                        <ExternalLink size={18} />
+                      </a>
+                    )}
+                  </span>
+                )}
+              </div>
+              <p class="text-sm leading-relaxed text-stardust/85">{project.description}</p>
+              <ul class="mt-auto flex flex-wrap gap-2 pt-4">
+                {project.tags.map((tag) => (
+                  <li class="rounded-full border border-nebula px-3 py-1 font-mono text-[10px] text-ion">
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))
+      }
+
+      <!-- Final slide: CTA to the full GitHub profile -->
+      <a
+        href={site.socials.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-nebula bg-abyss/40 p-10 text-center transition-colors hover:border-ember/50 md:w-[28vw] md:max-w-[420px] md:shrink-0"
+      >
+        <SocialIcon name="github" size={36} class="text-stardust transition-colors group-hover:text-ember" />
+        <p class="font-display text-lg font-semibold text-starlight">More on GitHub</p>
+        <p class="inline-flex items-center gap-2 font-mono text-xs text-stardust/70">
+          explore all repositories
+          <ArrowRight size={13} class="transition-transform group-hover:translate-x-1" />
+        </p>
+      </a>
+    </div>
+
+    <p class="mt-8 hidden text-center font-mono text-xs text-stardust/50 md:block">
+      keep scrolling // the track slides with you
+    </p>
+  </div>
+</section>

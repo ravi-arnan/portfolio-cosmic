@@ -1,0 +1,64 @@
+---
+import { Trophy, Star, Award, Briefcase } from '@lucide/astro';
+import { Image } from 'astro:assets';
+import SectionHeading from '../SectionHeading.astro';
+import { site } from '../../data/site';
+import { achievements } from '../../data/achievements';
+import profile from '../../assets/Ravi.png';
+
+const icons = { trophy: Trophy, star: Star, award: Award, briefcase: Briefcase };
+---
+
+<section id="about" data-stage="scene" class="scene-stage relative">
+  <div class="scene-pin">
+    <div class="scene-content relative mx-auto w-full max-w-6xl px-6" data-scene-content>
+      <SectionHeading index="01" title="About" />
+
+  <div class="grid items-start gap-12 md:grid-cols-[auto_1fr]">
+    <div class="relative mx-auto w-48 md:w-56" data-reveal>
+      <div class="absolute -inset-3 rounded-full bg-gradient-to-tr from-ember/30 to-ion/20 blur-2xl" aria-hidden="true"></div>
+      <Image
+        src={profile}
+        alt={`Portrait of ${site.name}`}
+        width={448}
+        loading="lazy"
+        class="relative rounded-2xl border border-nebula"
+      />
+    </div>
+
+    <div>
+      <p class="max-w-2xl text-lg leading-relaxed text-stardust" data-reveal>
+        {site.bio}
+      </p>
+      <p class="mt-4 font-mono text-sm text-ion" data-reveal>
+        {site.experience.role} at {site.experience.company}
+      </p>
+      <p class="mt-2 font-mono text-sm text-stardust/80" data-reveal>
+        $ lsb_release -ds
+        <span class="text-ember">"{site.dailyDriver}"</span>
+        <span class="text-stardust/50">// my daily driver</span>
+      </p>
+
+      <div class="mt-10 grid gap-4 sm:grid-cols-2" data-reveal-group>
+        {
+          achievements.map((item) => {
+            const Icon = icons[item.icon];
+            return (
+              <div
+                class="group rounded-xl border border-nebula bg-abyss/80 backdrop-blur-[2px] p-5 transition-colors hover:border-ember/40"
+              >
+                <div class="mb-3 flex items-center gap-3">
+                  <Icon size={18} class="text-ember" />
+                  <span class="font-mono text-xs text-stardust/70">{item.year}</span>
+                </div>
+                <h3 class="font-display text-sm font-semibold text-starlight">{item.title}</h3>
+                <p class="mt-1 text-xs leading-relaxed text-stardust/80">{item.description}</p>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+    </div>
+  </div>
+</section>

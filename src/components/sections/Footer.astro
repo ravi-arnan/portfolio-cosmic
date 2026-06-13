@@ -1,0 +1,16 @@
+---
+import { site } from '../../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-nebula">
+  <div
+    class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 font-mono text-xs text-stardust/60 md:flex-row"
+  >
+    <p>{year} {site.name}. Built with Astro and Three.js.</p>
+    <p>
+      <a href="#hero" class="transition-colors hover:text-ember">back to the event horizon</a>
+    </p>
+  </div>
+</footer>

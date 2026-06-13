@@ -1,0 +1,145 @@
+---
+import { ArrowUpRight } from '@lucide/astro';
+import SectionHeading from '../SectionHeading.astro';
+import SocialIcon from '../SocialIcon.astro';
+import { site } from '../../data/site';
+---
+
+<section id="contributions" data-stage="scene" class="scene-stage relative" hidden>
+  <div class="scene-pin">
+    <div class="scene-content relative mx-auto w-full max-w-6xl px-6" data-scene-content>
+  <SectionHeading index="03" title="Contributions" />
+
+  <div
+    class="rounded-2xl border border-nebula bg-abyss/80 backdrop-blur-[2px] p-6 md:p-8"
+    data-reveal
+  >
+    <p class="mb-5 font-mono text-xs tracking-wider text-stardust/70">
+      CONTRIBUTIONS // last 12 months //
+      <span id="contrib-total" class="text-ember"></span>
+    </p>
+    <!-- Height reserved up front so a late fetch never shifts layout -->
+    <div
+      id="contrib-grid"
+      class="grid grid-flow-col gap-[3px] overflow-x-auto pb-2"
+      style="grid-template-rows: repeat(7, 10px); min-height: 88px"
+      role="img"
+    >
+    </div>
+    <p class="mt-6 text-right">
+      <a
+        href={site.socials.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-flex items-center gap-2 font-mono text-sm text-stardust transition-colors hover:text-ember"
+      >
+        <SocialIcon name="github" size={15} class="text-ember" />
+        check out my profile
+        <ArrowUpRight
+          size={14}
+          class="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+        />
+      </a>
+    </p>
+  </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  /* Cells are created by script, so this cannot be Astro-scoped */
+  .contrib-cell {
+    opacity: 0;
+  }
+
+  .contrib-live .contrib-cell {
+    animation: contrib-in 0.45s ease-out both;
+    animation-delay: calc(var(--i) * 1.5ms);
+  }
+
+  @keyframes contrib-in {
+    from {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contrib-cell {
+      opacity: 1;
+    }
+    .contrib-live .contrib-cell {
+      animation: none;
+    }
+  }
+</style>
+
+<script define:vars={{ username: site.githubUsername }}>
+  const API_URL = `https://github-contributions-api.jogruber.de/v4/${username}?y=last`;
+
+  /* Cosmic intensity scale: void -> dim ember -> glowing ember */
+  const LEVEL_STYLES = [
+    'background-color: #0d0d24',
+    'background-color: #4a2c12',
+    'background-color: #8a4d1a',
+    'background-color: #cc7427',
+    'background-color: #ff9d3c; box-shadow: 0 0 6px rgba(255, 157, 60, 0.8)',
+  ];
+
+  async function renderContributions() {
+    const section = document.getElementById('contributions');
+    const grid = document.getElementById('contrib-grid');
+    const totalEl = document.getElementById('contrib-total');
+    if (!section || !grid || !totalEl) return;
+
+    try {
+      const res = await fetch(API_URL);
+      if (!res.ok) throw new Error(`API responded ${res.status}`);
+      const data = await res.json();
+      const days = data.contributions;
+      if (!Array.isArray(days) || days.length === 0) throw new Error('Empty data');
+
+      const total = Object.values(data.total ?? {}).reduce((sum, n) => sum + n, 0);
+      totalEl.textContent = `${total} total`;
+      grid.setAttribute(
+        'aria-label',
+        `GitHub contribution graph: ${total} contributions in the last 12 months`
+      );
+
+      const fragment = document.createDocumentFragment();
+      days.forEach((day, index) => {
+        const cell = document.createElement('div');
+        const level = Math.min(day.level ?? 0, LEVEL_STYLES.length - 1);
+        cell.className = 'contrib-cell';
+        cell.style.cssText = `width: 10px; height: 10px; border-radius: 2px; --i: ${index}; ${LEVEL_STYLES[level]}`;
+        cell.title = `${day.date}: ${day.count} contributions`;
+        fragment.appendChild(cell);
+      });
+      grid.appendChild(fragment);
+      section.hidden = false;
+      /* Page height changed: let scroll.ts recompute chapter marks */
+      window.dispatchEvent(new Event('resize'));
+
+      /* The graph builds itself, left to right, once it scrolls into view */
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            grid.classList.add('contrib-live');
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.3 }
+      );
+      observer.observe(grid);
+    } catch (error) {
+      /* API down: keep the section hidden rather than showing a broken graph */
+      console.warn('[contributions] hidden, fetch failed:', error);
+    }
+  }
+
+  renderContributions();
+</script>

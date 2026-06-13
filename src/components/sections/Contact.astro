@@ -1,0 +1,202 @@
+---
+import { Mail, Send } from '@lucide/astro';
+import SectionHeading from '../SectionHeading.astro';
+import SocialIcon from '../SocialIcon.astro';
+import { site } from '../../data/site';
+
+/* Web3Forms access keys are public by design; hCaptcha sitekeys likewise */
+const WEB3FORMS_ACCESS_KEY = '1939a7cb-a7ba-4d18-98df-ddf70b0129a6';
+const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
+---
+
+<section id="contact" class="relative mx-auto max-w-6xl px-6" style="padding-block: var(--spacing-section)">
+  <SectionHeading index="07" title="Contact" />
+
+  <div class="grid gap-12 md:grid-cols-2">
+    <div data-reveal>
+      <p class="max-w-md text-lg leading-relaxed text-stardust">
+        Open to internships, freelance work, and security projects. Send a
+        transmission and it will reach me.
+      </p>
+      <ul class="mt-8 space-y-4 font-mono text-sm">
+        <li>
+          <a
+            href={`mailto:${site.email}`}
+            class="inline-flex items-center gap-3 text-stardust transition-colors hover:text-ember"
+          >
+            <Mail size={16} class="text-ember" />
+            {site.email}
+          </a>
+        </li>
+        <li>
+          <a
+            href={site.socials.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-3 text-stardust transition-colors hover:text-ember"
+          >
+            <SocialIcon name="github" size={16} class="text-ember" />
+            github.com/ravi-arnan
+          </a>
+        </li>
+        <li>
+          <a
+            href={site.socials.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-3 text-stardust transition-colors hover:text-ember"
+          >
+            <SocialIcon name="linkedin" size={16} class="text-ember" />
+            linkedin.com/in/raviarnan
+          </a>
+        </li>
+        <li>
+          <a
+            href={site.socials.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-3 text-stardust transition-colors hover:text-ember"
+          >
+            <SocialIcon name="instagram" size={16} class="text-ember" />
+            instagram.com/ravi_arnan
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <form id="contact-form" class="space-y-4" data-reveal novalidate>
+      <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+      <!-- Honeypot: hidden from humans, bots fill it -->
+      <input
+        type="checkbox"
+        name="botcheck"
+        class="hidden"
+        style="display: none"
+        tabindex="-1"
+        autocomplete="off"
+      />
+
+      <div>
+        <label for="contact-name" class="mb-1.5 block font-mono text-xs text-stardust/70">
+          name
+        </label>
+        <input
+          id="contact-name"
+          type="text"
+          name="name"
+          required
+          maxlength="100"
+          class="w-full rounded-lg border border-nebula bg-abyss/60 px-4 py-3 text-sm text-starlight transition-colors outline-none placeholder:text-stardust/40 focus:border-ember/60"
+          placeholder="Your name"
+        />
+      </div>
+      <div>
+        <label for="contact-email" class="mb-1.5 block font-mono text-xs text-stardust/70">
+          email
+        </label>
+        <input
+          id="contact-email"
+          type="email"
+          name="email"
+          required
+          maxlength="254"
+          class="w-full rounded-lg border border-nebula bg-abyss/60 px-4 py-3 text-sm text-starlight transition-colors outline-none placeholder:text-stardust/40 focus:border-ember/60"
+          placeholder="you@example.com"
+        />
+      </div>
+      <div>
+        <label for="contact-message" class="mb-1.5 block font-mono text-xs text-stardust/70">
+          message
+        </label>
+        <textarea
+          id="contact-message"
+          name="message"
+          required
+          maxlength="5000"
+          rows="5"
+          class="w-full resize-y rounded-lg border border-nebula bg-abyss/60 px-4 py-3 text-sm text-starlight transition-colors outline-none placeholder:text-stardust/40 focus:border-ember/60"
+          placeholder="Your message"></textarea>
+      </div>
+
+      <div class="h-captcha" data-sitekey={HCAPTCHA_SITEKEY} data-theme="dark"></div>
+
+      <button
+        type="submit"
+        class="inline-flex items-center gap-2 rounded-full bg-ember px-6 py-3 font-mono text-sm font-medium text-void transition-all hover:shadow-[0_0_24px_rgba(255,157,60,0.4)] disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <Send size={15} />
+        transmit
+      </button>
+      <p id="contact-status" class="font-mono text-xs" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  /* hCaptcha is heavy third-party JS: only load it once the contact
+     section approaches the viewport instead of on initial page load */
+  const contactSection = document.getElementById('contact');
+  let hcaptchaRequested = false;
+
+  function loadHcaptcha() {
+    if (hcaptchaRequested) return;
+    hcaptchaRequested = true;
+    const script = document.createElement('script');
+    script.src = 'https://js.hcaptcha.com/1/api.js';
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+
+  if (contactSection) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          loadHcaptcha();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '600px' }
+    );
+    observer.observe(contactSection);
+  }
+
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('contact-status');
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form.reportValidity() || !status) return;
+
+    const formData = new FormData(form);
+    if (!formData.get('h-captcha-response')) {
+      status.textContent = 'Please complete the captcha first.';
+      status.className = 'font-mono text-xs text-rose-400';
+      return;
+    }
+
+    const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    button.disabled = true;
+    status.textContent = 'Transmitting...';
+    status.className = 'font-mono text-xs text-stardust';
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message ?? 'Submission failed');
+      status.textContent = 'Message received. I will get back to you soon.';
+      status.className = 'font-mono text-xs text-ion';
+      form.reset();
+      (globalThis as { hcaptcha?: { reset: () => void } }).hcaptcha?.reset();
+    } catch (error) {
+      status.textContent = 'Transmission failed. Please email me directly instead.';
+      status.className = 'font-mono text-xs text-rose-400';
+      console.error('[contact]', error);
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>

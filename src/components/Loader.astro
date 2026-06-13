@@ -1,0 +1,107 @@
+---
+/**
+ * First-load splash: a pure-CSS blackhole. A spinning accretion arc
+ * orbits a black core until the page is ready, then the whole overlay
+ * dissolves. No JS framework cost, dismisses on window load with a
+ * minimum display time and a hard timeout safety.
+ */
+---
+
+<div
+  id="loader"
+  class="fixed inset-0 z-[200] flex flex-col items-center justify-center gap-8 bg-void transition-opacity duration-700"
+  aria-hidden="true"
+>
+  <div class="loader-hole"></div>
+  <p class="font-mono text-xs tracking-widest text-stardust/60">
+    entering the void<span class="loader-dots"></span>
+  </p>
+</div>
+
+<style>
+  .loader-hole {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: #000;
+    box-shadow:
+      0 0 36px 4px rgb(255 157 60 / 0.3),
+      0 0 80px 12px rgb(255 157 60 / 0.12);
+  }
+
+  /* Accretion arc: a conic gradient ring, masked to a thin band */
+  .loader-hole::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg 30deg,
+      #b35f1a 80deg,
+      #ff9d3c 130deg,
+      #ffd9a8 160deg,
+      #3ce0ff 240deg,
+      transparent 320deg 360deg
+    );
+    mask: radial-gradient(closest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
+    -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
+    animation: loader-spin 1.3s linear infinite;
+  }
+
+  @keyframes loader-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loader-dots::after {
+    content: '';
+    animation: loader-dots 1.2s steps(4) infinite;
+  }
+
+  @keyframes loader-dots {
+    0% {
+      content: '';
+    }
+    25% {
+      content: '.';
+    }
+    50% {
+      content: '..';
+    }
+    75% {
+      content: '...';
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loader-hole::before,
+    .loader-dots::after {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const loader = document.getElementById('loader');
+  const MIN_VISIBLE_MS = 900;
+  const MAX_VISIBLE_MS = 4000;
+  const shownAt = performance.now();
+  let dismissed = false;
+
+  function dismiss() {
+    if (dismissed || !loader) return;
+    dismissed = true;
+    loader.classList.add('opacity-0', 'pointer-events-none');
+    setTimeout(() => loader.remove(), 750);
+  }
+
+  window.addEventListener('load', () => {
+    const elapsed = performance.now() - shownAt;
+    setTimeout(dismiss, Math.max(0, MIN_VISIBLE_MS - elapsed));
+  });
+  /* Safety: never trap the visitor behind the splash */
+  setTimeout(dismiss, MAX_VISIBLE_MS);
+</script>

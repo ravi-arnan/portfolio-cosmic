@@ -1,0 +1,27 @@
+@theme {
+  /* Cosmic palette */
+  --color-void: #030014;
+  --color-abyss: #0a0a1f;
+  --color-nebula: #12122b;
+  --color-ember: #ff9d3c;
+  --color-ember-dim: #b35f1a;
+  --color-ion: #3ce0ff;
+  --color-stardust: #b8b8d9;
+  --color-starlight: #ececf7;
+
+  /* Typography */
+  --font-display: 'Space Grotesk Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Fluid type scale */
+  --text-hero: clamp(2rem, 0.5rem + 6vw, 5.75rem);
+  --text-section: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+
+  /* Rhythm */
+  --spacing-section: clamp(5rem, 3rem + 8vw, 11rem);
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+}

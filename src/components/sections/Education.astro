@@ -1,0 +1,43 @@
+---
+import { GraduationCap, MapPin } from '@lucide/astro';
+import SectionHeading from '../SectionHeading.astro';
+import { education } from '../../data/education';
+---
+
+<section id="education" data-stage="scene" class="scene-stage relative">
+  <div class="scene-pin">
+    <div class="scene-content relative mx-auto w-full max-w-6xl px-6" data-scene-content>
+  <SectionHeading index="05" title="Education" />
+
+  <ol class="relative space-y-10 pl-8">
+    <span
+      class="absolute top-0 bottom-0 left-0 w-px bg-gradient-to-b from-ember/50 via-nebula to-nebula"
+      data-timeline-line
+      aria-hidden="true"></span>
+    {
+      education.map((item) => (
+        <li class="relative" data-reveal>
+          <span
+            class="absolute top-1 -left-[37px] flex h-4 w-4 items-center justify-center rounded-full border border-ember/50 bg-void"
+            aria-hidden="true"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-ember" />
+          </span>
+          <p class="font-mono text-xs text-ion">{item.period}</p>
+          <h3 class="mt-1 font-display text-xl font-semibold text-starlight">{item.degree}</h3>
+          <p class="mt-1 flex items-center gap-2 text-sm text-stardust">
+            <GraduationCap size={14} class="text-ember" />
+            {item.school}
+            <span class="inline-flex items-center gap-1 text-stardust/60">
+              <MapPin size={12} />
+              {item.location}
+            </span>
+          </p>
+          <p class="mt-2 font-mono text-xs text-stardust/80">{item.detail}</p>
+        </li>
+      ))
+    }
+  </ol>
+    </div>
+  </div>
+</section>
