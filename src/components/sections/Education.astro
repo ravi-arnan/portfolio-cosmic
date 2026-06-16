@@ -28,12 +28,12 @@ import { education } from '../../data/education';
           <p class="mt-1 flex items-center gap-2 text-sm text-stardust">
             <GraduationCap size={14} class="text-ember" />
             {item.school}
-            <span class="inline-flex items-center gap-1 text-stardust/60">
+            <span class="inline-flex items-center gap-1 text-faint">
               <MapPin size={12} />
               {item.location}
             </span>
           </p>
-          <p class="mt-2 font-mono text-xs text-stardust/80">{item.detail}</p>
+          <p class="mt-2 font-mono text-xs text-muted">{item.detail}</p>
         </li>
       ))
     }

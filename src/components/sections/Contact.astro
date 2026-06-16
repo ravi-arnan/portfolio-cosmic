@@ -14,7 +14,7 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
 
   <div class="grid gap-12 md:grid-cols-2">
     <div data-reveal>
-      <p class="max-w-md text-lg leading-relaxed text-stardust">
+      <p class="max-w-md text-lg leading-relaxed text-muted">
         Open to internships, freelance work, and security projects. Send a
         transmission and it will reach me.
       </p>
@@ -22,7 +22,7 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
         <li>
           <a
             href={`mailto:${site.email}`}
-            class="inline-flex items-center gap-3 text-stardust transition-colors hover:text-ember"
+            class="inline-flex min-h-[44px] items-center gap-3 text-stardust transition-colors hover:text-ember active:text-ember"
           >
             <Mail size={16} class="text-ember" />
             {site.email}
@@ -33,7 +33,7 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
             href={site.socials.github}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-3 text-stardust transition-colors hover:text-ember"
+            class="inline-flex min-h-[44px] items-center gap-3 text-stardust transition-colors hover:text-ember active:text-ember"
           >
             <SocialIcon name="github" size={16} class="text-ember" />
             github.com/ravi-arnan
@@ -44,7 +44,7 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
             href={site.socials.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-3 text-stardust transition-colors hover:text-ember"
+            class="inline-flex min-h-[44px] items-center gap-3 text-stardust transition-colors hover:text-ember active:text-ember"
           >
             <SocialIcon name="linkedin" size={16} class="text-ember" />
             linkedin.com/in/raviarnan
@@ -55,7 +55,7 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
             href={site.socials.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-3 text-stardust transition-colors hover:text-ember"
+            class="inline-flex min-h-[44px] items-center gap-3 text-stardust transition-colors hover:text-ember active:text-ember"
           >
             <SocialIcon name="instagram" size={16} class="text-ember" />
             instagram.com/ravi_arnan
@@ -77,7 +77,7 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
       />
 
       <div>
-        <label for="contact-name" class="mb-1.5 block font-mono text-xs text-stardust/70">
+        <label for="contact-name" class="mb-1.5 block font-mono text-xs text-muted">
           name
         </label>
         <input
@@ -91,7 +91,7 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
         />
       </div>
       <div>
-        <label for="contact-email" class="mb-1.5 block font-mono text-xs text-stardust/70">
+        <label for="contact-email" class="mb-1.5 block font-mono text-xs text-muted">
           email
         </label>
         <input
@@ -105,7 +105,7 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
         />
       </div>
       <div>
-        <label for="contact-message" class="mb-1.5 block font-mono text-xs text-stardust/70">
+        <label for="contact-message" class="mb-1.5 block font-mono text-xs text-muted">
           message
         </label>
         <textarea
@@ -122,7 +122,7 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
 
       <button
         type="submit"
-        class="inline-flex items-center gap-2 rounded-full bg-ember px-6 py-3 font-mono text-sm font-medium text-void transition-all hover:shadow-[0_0_24px_rgba(255,157,60,0.4)] disabled:cursor-not-allowed disabled:opacity-50"
+        class="inline-flex items-center gap-2 rounded-full bg-ember px-6 py-3 font-mono text-sm font-medium text-void transition-all hover:shadow-[0_0_24px_rgba(255,157,60,0.4)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
       >
         <Send size={15} />
         transmit

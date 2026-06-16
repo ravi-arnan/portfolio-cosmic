@@ -7,9 +7,9 @@ const categoryIcons = { Frontend: AppWindow, Backend: Server, Security: Shield }
 
 /* Full literal class strings: Tailwind v4 only generates statically present classes */
 const accentClasses = {
-  ion: { border: 'hover:border-ion/40', text: 'text-ion', chip: 'border-ion/20' },
-  ember: { border: 'hover:border-ember/40', text: 'text-ember', chip: 'border-ember/20' },
-  rose: { border: 'hover:border-rose-400/40', text: 'text-rose-400', chip: 'border-rose-400/20' },
+  ion: { border: 'hover:border-ion/40 active:border-ion/40', text: 'text-ion', chip: 'border-ion/20' },
+  ember: { border: 'hover:border-ember/40 active:border-ember/40', text: 'text-ember', chip: 'border-ember/20' },
+  rose: { border: 'hover:border-rose-400/40 active:border-rose-400/40', text: 'text-rose-400', chip: 'border-rose-400/20' },
 } as const;
 ---
 
@@ -26,7 +26,7 @@ const accentClasses = {
         return (
           <div
             class:list={[
-              'rounded-2xl border border-nebula bg-abyss/80 backdrop-blur-[2px] p-6 transition-colors',
+              'rounded-2xl surface-card p-6 transition-colors',
               accent.border,
             ]}
           >

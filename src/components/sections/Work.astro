@@ -21,66 +21,74 @@ import { site } from '../../data/site';
       data-reveal-group
     >
       {
-        projects.map((project, i) => (
-          <article class="group relative flex flex-col overflow-hidden rounded-2xl border border-nebula bg-abyss/80 backdrop-blur-[2px] transition-colors hover:border-ember/40 md:w-[42vw] md:max-w-[620px] md:shrink-0">
-            <div class="aspect-video overflow-hidden">
-              <Image
-                src={project.image}
-                alt={`Screenshot of ${project.title}`}
-                width={720}
-                loading={i < 2 ? 'eager' : 'lazy'}
-                class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-              />
-            </div>
-            <div class="flex grow flex-col p-6">
-              <div class="mb-2 flex items-center justify-between gap-4">
-                <h3 class="font-display text-xl font-semibold text-starlight">{project.title}</h3>
-                {project.confidential ? (
-                  <span
-                    class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-nebula px-3 py-1 font-mono text-[10px] tracking-wider text-stardust/70 uppercase"
-                    title="Source code is confidential"
-                  >
-                    <Lock size={11} />
-                    confidential
-                  </span>
-                ) : (
-                  <span class="flex shrink-0 items-center gap-3">
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${project.title} on GitHub`}
-                        class="text-stardust transition-colors hover:text-ember"
-                      >
-                        <SocialIcon name="github" size={18} />
-                      </a>
-                    )}
-                    {project.live && (
-                      <a
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${project.title} live site`}
-                        class="text-stardust transition-colors hover:text-ember"
-                      >
-                        <ExternalLink size={18} />
-                      </a>
-                    )}
-                  </span>
-                )}
+        projects.map((project, i) => {
+          const featured = project.featured;
+          return (
+            <article class="group relative flex flex-col overflow-hidden rounded-2xl surface-card transition-colors hover:border-ember/40 active:border-ember/40 md:w-[42vw] md:max-w-[620px] md:shrink-0">
+              <div class="aspect-video overflow-hidden">
+                <Image
+                  src={project.image}
+                  alt={`Screenshot of ${project.title}`}
+                  width={720}
+                  loading={i < 2 ? 'eager' : 'lazy'}
+                  class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                />
               </div>
-              <p class="text-sm leading-relaxed text-stardust/85">{project.description}</p>
-              <ul class="mt-auto flex flex-wrap gap-2 pt-4">
-                {project.tags.map((tag) => (
-                  <li class="rounded-full border border-nebula px-3 py-1 font-mono text-[10px] text-ion">
-                    {tag}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </article>
-        ))
+              <div class="flex grow flex-col p-6">
+                {featured && (
+                  <p class="mb-2 font-mono text-[11px] tracking-[0.2em] text-ember uppercase">
+                    Featured // thesis
+                  </p>
+                )}
+                <div class="mb-2 flex items-center justify-between gap-4">
+                  <h3 class="font-display text-xl font-semibold text-starlight">{project.title}</h3>
+                  {project.confidential ? (
+                    <span
+                      class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-line px-3 py-1 font-mono text-[10px] tracking-wider text-faint uppercase"
+                      title="Source code is confidential"
+                    >
+                      <Lock size={11} />
+                      confidential
+                    </span>
+                  ) : (
+                    <span class="flex shrink-0 items-center gap-3">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${project.title} on GitHub`}
+                          class="text-muted transition-colors hover:text-ember active:text-ember"
+                        >
+                          <SocialIcon name="github" size={18} />
+                        </a>
+                      )}
+                      {project.live && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${project.title} live site`}
+                          class="text-muted transition-colors hover:text-ember active:text-ember"
+                        >
+                          <ExternalLink size={18} />
+                        </a>
+                      )}
+                    </span>
+                  )}
+                </div>
+                <p class="text-sm leading-relaxed text-muted">{project.description}</p>
+                <ul class="mt-auto flex flex-wrap gap-2 pt-4">
+                  {project.tags.map((tag) => (
+                    <li class="rounded-full border border-line px-3 py-1.5 font-mono text-[10px] text-ion">
+                      {tag}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          );
+        })
       }
 
       <!-- Final slide: CTA to the full GitHub profile -->
@@ -88,18 +96,18 @@ import { site } from '../../data/site';
         href={site.socials.github}
         target="_blank"
         rel="noopener noreferrer"
-        class="group flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-nebula bg-abyss/40 p-10 text-center transition-colors hover:border-ember/50 md:w-[28vw] md:max-w-[420px] md:shrink-0"
+        class="group flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-line bg-surface-raised/40 p-10 text-center transition-colors hover:border-ember/50 active:border-ember/50 md:w-[32vw] md:max-w-[460px] md:shrink-0"
       >
-        <SocialIcon name="github" size={36} class="text-stardust transition-colors group-hover:text-ember" />
+        <SocialIcon name="github" size={36} class="text-muted transition-colors group-hover:text-ember" />
         <p class="font-display text-lg font-semibold text-starlight">More on GitHub</p>
-        <p class="inline-flex items-center gap-2 font-mono text-xs text-stardust/70">
+        <p class="inline-flex items-center gap-2 font-mono text-xs text-faint">
           explore all repositories
           <ArrowRight size={13} class="transition-transform group-hover:translate-x-1" />
         </p>
       </a>
     </div>
 
-    <p class="mt-8 hidden text-center font-mono text-xs text-stardust/50 md:block">
+    <p class="mt-8 hidden text-center font-mono text-xs text-faint md:block">
       keep scrolling // the track slides with you
     </p>
   </div>

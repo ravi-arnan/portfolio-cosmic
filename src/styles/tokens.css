@@ -3,11 +3,18 @@
   --color-void: #030014;
   --color-abyss: #0a0a1f;
   --color-nebula: #12122b;
+  /* Raised surface + visible hairline so content panels read as floating
+     above the cosmic background instead of melting into it */
+  --color-surface-raised: #1a1a3a;
+  --color-line: #2e2e54;
   --color-ember: #ff9d3c;
   --color-ember-dim: #b35f1a;
   --color-ion: #3ce0ff;
   --color-stardust: #b8b8d9;
   --color-starlight: #ececf7;
+  /* Text tiers: solid (not alpha-dimmed) for reliable contrast on dark */
+  --color-muted: #c8c8e6;
+  --color-faint: #9c9cc2;
 
   /* Typography */
   --font-display: 'Space Grotesk Variable', system-ui, sans-serif;
@@ -15,7 +22,7 @@
 
   /* Fluid type scale */
   --text-hero: clamp(2rem, 0.5rem + 6vw, 5.75rem);
-  --text-section: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+  --text-section: clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem);
 
   /* Rhythm */
   --spacing-section: clamp(5rem, 3rem + 8vw, 11rem);
