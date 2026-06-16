@@ -12,3 +12,5 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    # Force HTTPS on repeat visits (omit `preload` until a custom domain is set)
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"

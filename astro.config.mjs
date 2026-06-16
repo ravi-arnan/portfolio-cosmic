@@ -15,7 +15,8 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     build: {
-      sourcemap: true
+      // No public source maps in production: they leak original source
+      sourcemap: false
     }
   }
 });
