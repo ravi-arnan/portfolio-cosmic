@@ -37,7 +37,7 @@ export interface ChoreoParams {
 
 const CHAPTERS: Record<string, ChoreoParams> = {
   // Wide establishing shot, face to face
-  hero: { camX: 0, camY: 1.2, camZ: 8, fov: 45, lookX: 0, lookY: 0, lookZ: 0, holeX: 0, holeY: 0, yaw: 0, disk: 0.32, ring: 0.7, pull: 0.05, spin: 0, finale: 0, holeScale: 1 },
+  hero: { camX: 0, camY: 1.2, camZ: 8, fov: 45, lookX: 0, lookY: 0, lookZ: 0, holeX: 0, holeY: 0, yaw: 0, disk: 0.15, ring: 0.7, pull: 0.05, spin: 0, finale: 0, holeScale: 1 },
   // Camera swings left: hole floats high above the photo column, text gets dark sky
   about: { camX: -1.6, camY: 0.5, camZ: 7.4, fov: 50, lookX: 0, lookY: 0, lookZ: 0, holeX: -2.5, holeY: 1.0, yaw: 0.5, disk: 0.55, ring: 1.0, pull: 0.2, spin: 0.18, finale: 0, holeScale: 1 },
   // High wide shot from the left while browsing projects
