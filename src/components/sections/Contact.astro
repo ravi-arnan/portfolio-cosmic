@@ -4,9 +4,9 @@ import SectionHeading from '../SectionHeading.astro';
 import SocialIcon from '../SocialIcon.astro';
 import { site } from '../../data/site';
 
-/* Web3Forms access keys are public by design; hCaptcha sitekeys likewise */
-const WEB3FORMS_ACCESS_KEY = '1939a7cb-a7ba-4d18-98df-ddf70b0129a6';
-const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
+/* Web3Forms access keys are public by design. Spam protection uses the
+   honeypot field below — hCaptcha validation is a Web3Forms Pro feature. */
+const WEB3FORMS_ACCESS_KEY = '7875f21e-f068-451c-b09a-c231f5887c99';
 ---
 
 <section id="contact" class="relative mx-auto max-w-6xl px-6" style="padding-block: var(--spacing-section)">
@@ -118,8 +118,6 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
           placeholder="Your message"></textarea>
       </div>
 
-      <div class="h-captcha" data-sitekey={HCAPTCHA_SITEKEY} data-theme="dark"></div>
-
       <button
         type="submit"
         class="inline-flex items-center gap-2 rounded-full bg-ember px-6 py-3 font-mono text-sm font-medium text-void transition-all hover:shadow-[0_0_24px_rgba(255,157,60,0.4)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
@@ -133,34 +131,6 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
 </section>
 
 <script>
-  /* hCaptcha is heavy third-party JS: only load it once the contact
-     section approaches the viewport instead of on initial page load */
-  const contactSection = document.getElementById('contact');
-  let hcaptchaRequested = false;
-
-  function loadHcaptcha() {
-    if (hcaptchaRequested) return;
-    hcaptchaRequested = true;
-    const script = document.createElement('script');
-    script.src = 'https://js.hcaptcha.com/1/api.js';
-    script.async = true;
-    script.defer = true;
-    document.head.appendChild(script);
-  }
-
-  if (contactSection) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          loadHcaptcha();
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '600px' }
-    );
-    observer.observe(contactSection);
-  }
-
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const status = document.getElementById('contact-status');
 
@@ -169,12 +139,6 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
     if (!form.reportValidity() || !status) return;
 
     const formData = new FormData(form);
-    if (!formData.get('h-captcha-response')) {
-      status.textContent = 'Please complete the captcha first.';
-      status.className = 'font-mono text-xs text-rose-400';
-      return;
-    }
-
     const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
     button.disabled = true;
     status.textContent = 'Transmitting...';
@@ -190,7 +154,6 @@ const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
       status.textContent = 'Message received. I will get back to you soon.';
       status.className = 'font-mono text-xs text-ion';
       form.reset();
-      (globalThis as { hcaptcha?: { reset: () => void } }).hcaptcha?.reset();
     } catch (error) {
       status.textContent = 'Transmission failed. Please email me directly instead.';
       status.className = 'font-mono text-xs text-rose-400';

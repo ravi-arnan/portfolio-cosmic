@@ -4,7 +4,7 @@ A single-page personal portfolio built around a black hole. The whole site is on
 full-page scroll experience: a WebGL black hole anchors the hero, and the camera,
 accretion disk, and starfield react to scroll progress as each section passes by.
 
-🌐 **Live:** https://raviarnan.netlify.app
+🌐 **Live:** https://raviarnan.dev
 
 ## Tech Stack
 
