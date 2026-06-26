@@ -5,7 +5,9 @@ html {
   background-color: var(--color-void);
   color: var(--color-stardust);
   font-family: var(--font-display);
-  scroll-behavior: smooth;
+  /* Lenis owns smooth scrolling on capable devices; keep native scroll
+     instant so the two easing engines never fight on anchor navigation */
+  scroll-behavior: auto;
 }
 
 /* Themed scrollbar: thin ember thumb floating on the void */
@@ -56,6 +58,19 @@ body {
   color: var(--color-void);
 }
 
+/* Keyboard focus indicator: an ember ring on any focusable element.
+   Unlayered, so it overrides Tailwind's `outline-none` utility (e.g. the
+   contact inputs) for keyboard users, while mouse focus shows nothing. */
+:focus-visible {
+  outline: 2px solid var(--color-ember);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Subtle film grain for atmosphere, pure CSS */
 .grain::after {
   content: '';
@@ -63,7 +78,8 @@ body {
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -74,12 +90,27 @@ body {
   inset: 0;
   z-index: 99;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.45) 100%);
+  background: radial-gradient(ellipse at center, transparent 42%, rgb(0 0 0 / 0.45) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+@layer components {
+  /* Elevated content panel: a raised translucent surface with depth and a
+     top highlight so cards sit clearly above the cosmic scene. Border-radius
+     stays on the element (cards mix rounded-2xl / rounded-xl); the border
+     here is overridden by any hover:border-* utility. */
+  .surface-card {
+    background-color: color-mix(in oklab, var(--color-surface-raised) 80%, transparent);
+    border: 1px solid var(--color-line);
+    backdrop-filter: blur(8px);
+    box-shadow:
+      0 8px 40px -12px rgb(0 0 0 / 0.7),
+      inset 0 1px 0 rgb(255 255 255 / 0.06);
   }
 }
 

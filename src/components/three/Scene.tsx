@@ -19,6 +19,10 @@ const FIELD_POSITION: [number, number, number] = [20, 2, -6];
 
 const VOID = '#030014';
 const DAMP = 2.2;
+/* The look target eases more slowly than the camera position: gentler view
+   rotation across the big vista swings (work -> contributions, etc.) takes
+   the edge off fast-scroll motion sickness without making the rig feel laggy. */
+const LOOK_DAMP = 1.5;
 
 /** Samples the chapter choreography once per frame for every rig below. */
 function Choreographer() {
@@ -41,9 +45,9 @@ function CameraRig() {
     camera.updateProjectionMatrix();
 
     const look = lookTarget.current;
-    look.x = MathUtils.damp(look.x, choreo.lookX, DAMP, delta);
-    look.y = MathUtils.damp(look.y, choreo.lookY, DAMP, delta);
-    look.z = MathUtils.damp(look.z, choreo.lookZ, DAMP, delta);
+    look.x = MathUtils.damp(look.x, choreo.lookX, LOOK_DAMP, delta);
+    look.y = MathUtils.damp(look.y, choreo.lookY, LOOK_DAMP, delta);
+    look.z = MathUtils.damp(look.z, choreo.lookZ, LOOK_DAMP, delta);
     camera.lookAt(look);
   });
   return null;
@@ -56,8 +60,9 @@ function BlackholeGroup() {
   useFrame((state, delta) => {
     const group = groupRef.current;
     if (!group) return;
-    // At the finale the horizon leans with the cursor, weighted by presence
-    const sway = choreo.finale;
+    // A faint always-on cursor parallax keeps the hole alive where visitors
+    // dwell longest (the hero); the finale leans much harder into the cursor.
+    const sway = 0.14 + choreo.finale * 0.86;
     const targetX = choreo.holeX + pointer.x * 0.45 * sway;
     const targetY = choreo.holeY + pointer.y * 0.25 * sway;
     group.position.x = MathUtils.damp(group.position.x, targetX, DAMP, delta);

@@ -9,13 +9,14 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://raviarnan.netlify.app',
+  site: 'https://raviarnan.dev',
   integrations: [react(), sitemap()],
 
   vite: {
     plugins: [tailwindcss()],
     build: {
-      sourcemap: true
+      // No public source maps in production: they leak original source
+      sourcemap: false
     }
   }
 });

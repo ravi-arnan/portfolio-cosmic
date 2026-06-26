@@ -21,13 +21,23 @@ import { site } from '../../data/site';
       class="relative z-20 flex h-full flex-col items-center justify-center px-6 text-center"
       data-hero-copy
     >
+      <!-- Contrast scrim: keeps the headline legible over the brightest
+           accretion-ring pixels, independent of the WebGL. Fades with the
+           copy block via the same opacity tween. -->
+      <div
+        class="pointer-events-none absolute inset-0 -z-10"
+        aria-hidden="true"
+        style="background: radial-gradient(ellipse 60% 42% at center, rgb(3 0 20 / 0.62), transparent 72%)"
+      >
+      </div>
+
       <p class="mb-6 font-mono text-xs tracking-[0.3em] text-ion uppercase" data-reveal>
         {site.tagline}
       </p>
       <p class="mb-3 font-mono text-sm text-ember" data-reveal>$ whoami</p>
       <h1
-        class="font-display leading-none font-bold whitespace-nowrap text-starlight"
-        style="font-size: var(--text-hero)"
+        class="font-display leading-none font-bold text-balance whitespace-normal text-starlight md:whitespace-nowrap"
+        style="font-size: var(--text-hero); text-shadow: 0 2px 24px rgb(3 0 20 / 0.85), 0 0 2px rgb(3 0 20 / 0.9)"
         data-reveal
       >
         Ravi Arnan Irianto
@@ -35,9 +45,26 @@ import { site } from '../../data/site';
       <p class="mt-6 max-w-md font-mono text-sm text-stardust" data-reveal>
         dev + security // {site.location}
       </p>
+
+      <!-- Primary actions, visible above the fold -->
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3" data-reveal>
+        <a
+          href="#work"
+          class="rounded-full bg-ember px-6 py-2.5 font-mono text-sm font-medium text-void transition-colors hover:bg-ember/90"
+        >
+          View work
+        </a>
+        <a
+          href="#contact"
+          class="rounded-full border border-ember/40 px-6 py-2.5 font-mono text-sm text-ember transition-colors hover:bg-ember hover:text-void"
+        >
+          Get in touch
+        </a>
+      </div>
+
       <a
         href="#about"
-        class="group mt-12 inline-flex items-center gap-2 font-mono text-xs text-stardust transition-colors hover:text-ember"
+        class="group mt-8 inline-flex items-center gap-2 font-mono text-xs text-stardust/80 transition-colors hover:text-ember"
         data-reveal
       >
         scroll into the void

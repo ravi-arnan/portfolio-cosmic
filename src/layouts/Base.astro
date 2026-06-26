@@ -4,19 +4,35 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/500.css';
 import '../styles/global.css';
 import Starfield from '../components/Starfield.astro';
+import { site } from '../data/site';
 
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
 const {
   title = 'Ravi Arnan Irianto - Developer and Security Portfolio',
   description = 'Personal portfolio of Ravi Arnan Irianto: web development, cybersecurity, and selected projects including SOAR automation, full-stack apps, and security testing.',
+  noindex = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/RaviLogo.png', Astro.site);
+
+/* Structured data so search engines recognise the person entity */
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: Astro.site?.href,
+  jobTitle: site.tagline,
+  email: `mailto:${site.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: site.location },
+  sameAs: [site.socials.github, site.socials.linkedin, site.socials.instagram],
+  image: ogImage.href,
+};
 ---
 
 <!doctype html>
@@ -24,7 +40,9 @@ const ogImage = new URL('/RaviLogo.png', Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/RaviLogo.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/RaviLogo.png" />
 
     <title>{title}</title>
     <meta name="title" content={title} />
@@ -36,6 +54,7 @@ const ogImage = new URL('/RaviLogo.png', Astro.site);
     />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -43,6 +62,11 @@ const ogImage = new URL('/RaviLogo.png', Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1500" />
+    <meta property="og:image:height" content="1500" />
+    <meta property="og:image:alt" content="Ravi Arnan Irianto" />
+    <meta property="og:site_name" content="Ravi Arnan Irianto" />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -50,8 +74,11 @@ const ogImage = new URL('/RaviLogo.png', Astro.site);
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={ogImage} />
+    <meta property="twitter:image:alt" content="Ravi Arnan Irianto" />
 
     <meta name="theme-color" content="#030014" />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </head>
   <body class="bg-void text-stardust antialiased">
     <Starfield />

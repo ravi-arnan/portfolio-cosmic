@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://raviarnan.netlify.app/sitemap.xml
+Sitemap: https://raviarnan.dev/sitemap-index.xml
