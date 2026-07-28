@@ -71,6 +71,26 @@ body {
   outline: none;
 }
 
+/* Bypass block: hidden until a keyboard lands on it, then a pill above
+   everything (loader included, in case it is focused during the splash) */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  z-index: 300;
+  transform: translate(-50%, -250%);
+  border-radius: 9999px;
+  background-color: var(--color-ember);
+  padding: 0.5rem 1.25rem;
+  color: var(--color-void);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.skip-link:focus {
+  transform: translate(-50%, 0);
+}
+
 /* Subtle film grain for atmosphere, pure CSS */
 .grain::after {
   content: '';

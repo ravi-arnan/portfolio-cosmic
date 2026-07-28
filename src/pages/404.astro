@@ -4,7 +4,11 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title="404 - Lost beyond the event horizon" noindex>
-  <main class="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+  <main
+    id="main"
+    tabindex="-1"
+    class="flex min-h-screen flex-col items-center justify-center px-6 text-center"
+  >
     <p class="font-mono text-sm text-ember">404 // singularity</p>
     <h1 class="mt-4 font-display text-4xl font-bold text-starlight md:text-6xl">
       This page fell past the event horizon

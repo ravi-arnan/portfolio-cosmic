@@ -78,7 +78,7 @@ import { site } from '../../data/site';
   }
 </style>
 
-<script define:vars={{ username: site.githubUsername }}>
+<script is:inline define:vars={{ username: site.githubUsername }}>
   const API_URL = `https://github-contributions-api.jogruber.de/v4/${username}?y=last`;
 
   /* Cosmic intensity scale: void -> dim ember -> glowing ember */

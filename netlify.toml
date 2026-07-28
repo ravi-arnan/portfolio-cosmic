@@ -14,3 +14,10 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     # Force HTTPS on repeat visits (omit `preload` until a custom domain is set)
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# Astro fingerprints everything under /_astro/, so it can be cached forever.
+# Netlify's default is must-revalidate, which costs a round trip per asset.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
