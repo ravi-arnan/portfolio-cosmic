@@ -11,29 +11,36 @@ import { certifications } from '../../data/certifications';
 
   <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
     {
-      certifications.map((cert) => (
-        <a
-          href={cert.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group flex flex-col justify-between rounded-xl surface-card p-5 transition-colors hover:border-ion/40 active:border-ion/40"
-        >
-          <div>
-            <Award size={18} class="mb-3 text-ion" />
-            <h3 class="font-display text-sm leading-snug font-semibold text-starlight">
-              {cert.title}
-            </h3>
-            <p class="mt-2 text-xs text-muted">{cert.issuer}</p>
-          </div>
-          <div class="mt-4 flex items-center justify-between">
-            <span class="font-mono text-[10px] text-faint">{cert.date}</span>
-            <ExternalLink
-              size={12}
-              class="text-stardust/40 transition-colors group-hover:text-ion"
-            />
-          </div>
-        </a>
-      ))
+      certifications.map((cert) => {
+        /* Credentials without a public URL still get a card, just not a link. */
+        const Card = cert.link ? 'a' : 'div';
+        const linkProps = cert.link
+          ? { href: cert.link, target: '_blank', rel: 'noopener noreferrer' }
+          : {};
+        return (
+          <Card
+            {...linkProps}
+            class="group flex flex-col justify-between rounded-xl surface-card p-5 transition-colors hover:border-ion/40 active:border-ion/40"
+          >
+            <div>
+              <Award size={18} class="mb-3 text-ion" />
+              <h3 class="font-display text-sm leading-snug font-semibold text-starlight">
+                {cert.title}
+              </h3>
+              <p class="mt-2 text-xs text-muted">{cert.issuer}</p>
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="font-mono text-[10px] text-faint">{cert.date}</span>
+              {cert.link && (
+                <ExternalLink
+                  size={12}
+                  class="text-stardust/40 transition-colors group-hover:text-ion"
+                />
+              )}
+            </div>
+          </Card>
+        );
+      })
     }
   </div>
     </div>

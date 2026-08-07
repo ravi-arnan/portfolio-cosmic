@@ -1,17 +1,15 @@
 export const site = {
   name: 'Ravi Arnan Irianto',
-  tagline: 'Web Developer and Cybersecurity Enthusiast',
-  // Bio rewritten for the new site (approved: Claude writes the bio)
-  bio: 'IT student at Udayana University who builds web applications and breaks them, responsibly. I work across the stack, from React and Astro frontends to Python and Node backends, with a growing focus on security: SOAR automation, penetration testing, and secure development practices.',
+  tagline: 'Fullstack Developer & AI Engineer',
+  bio: 'Fullstack developer and AI engineer in Bali. I build production TypeScript across React, React Native and Node, and I own the deployments they run on. Outside work I build systems on top of LLMs: retrieval pipelines, agent tooling, and screeners that filter deterministically before spending a token. I started in security, and it still shapes how I design auth and permissions.',
   location: 'Denpasar, Bali, Indonesia',
   email: 'raviarnankeren@gmail.com',
   // TODO: add CV PDF when available, then point this at /cv.pdf
   cvUrl: '#',
   experience: {
-    role: 'IT / Web Developer (Part-time)',
+    role: 'Fullstack Developer Intern',
     company: 'PT Unicorn Food and Beverages',
-    // TODO: confirm period with Ravi
-    period: '',
+    period: 'Mar 2026 - Present',
   },
   dailyDriver: 'Zorin OS',
   socials: {

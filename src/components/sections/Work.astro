@@ -1,5 +1,5 @@
 ---
-import { Lock, ExternalLink, ArrowRight } from '@lucide/astro';
+import { Lock, ExternalLink, ArrowRight, ImageOff } from '@lucide/astro';
 import { Image } from 'astro:assets';
 import SectionHeading from '../SectionHeading.astro';
 import SocialIcon from '../SocialIcon.astro';
@@ -26,18 +26,34 @@ import { site } from '../../data/site';
           return (
             <article class="group relative flex flex-col overflow-hidden rounded-2xl surface-card transition-colors hover:border-ember/40 active:border-ember/40 md:w-[42vw] md:max-w-[620px] md:shrink-0">
               <div class="aspect-video overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={`Screenshot of ${project.title}`}
-                  width={720}
-                  loading={i < 2 ? 'eager' : 'lazy'}
-                  class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                />
+                {project.image ? (
+                  <Image
+                    src={project.image}
+                    alt={`Screenshot of ${project.title}`}
+                    width={720}
+                    loading={i < 2 ? 'eager' : 'lazy'}
+                    class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : (
+                  /* No screenshot: confidential work, or a CLI/testnet project
+                     with nothing worth showing. Deliberately empty. The title
+                     is already directly below, so repeating it here reads as a
+                     bug rather than a placeholder. */
+                  <div
+                    class="flex h-full w-full items-center justify-center gap-2.5 bg-gradient-to-br from-ember/20 via-surface-raised to-ion/15"
+                    aria-hidden="true"
+                  >
+                    {project.confidential ? <Lock size={13} class="text-faint" /> : <ImageOff size={13} class="text-faint" />}
+                    <p class="font-mono text-[10px] tracking-[0.25em] text-faint uppercase">
+                      {project.confidential ? 'source confidential' : 'no screenshot'}
+                    </p>
+                  </div>
+                )}
               </div>
               <div class="flex grow flex-col p-6">
                 {featured && (
                   <p class="mb-2 font-mono text-[11px] tracking-[0.2em] text-ember uppercase">
-                    Featured // thesis
+                    Featured // production
                   </p>
                 )}
                 <div class="mb-2 flex items-center justify-between gap-4">
