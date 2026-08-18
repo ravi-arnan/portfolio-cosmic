@@ -1,9 +1,9 @@
 ---
-import { AppWindow, Server, Shield } from '@lucide/astro';
+import { AppWindow, Server, Brain } from '@lucide/astro';
 import SectionHeading from '../SectionHeading.astro';
 import { skillCategories } from '../../data/skills';
 
-const categoryIcons = { Frontend: AppWindow, Backend: Server, Security: Shield };
+const categoryIcons = { frontend: AppWindow, backend: Server, ai: Brain };
 
 /* Full literal class strings: Tailwind v4 only generates statically present classes */
 const accentClasses = {
@@ -21,7 +21,7 @@ const accentClasses = {
   <div class="grid gap-6 md:grid-cols-3" data-reveal-group>
     {
       skillCategories.map((category) => {
-        const Icon = categoryIcons[category.title as keyof typeof categoryIcons];
+        const Icon = categoryIcons[category.icon];
         const accent = accentClasses[category.accent];
         return (
           <div

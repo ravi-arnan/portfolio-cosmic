@@ -100,17 +100,21 @@ if (hero && !prefersReducedMotion) {
   }
 }
 
-/* Smooth-scroll nav anchors through Lenis so they respect easing */
-document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener('click', (event) => {
-    const target = anchor.getAttribute('href');
-    if (!target || target === '#') return;
-    if (lenis && document.querySelector(target)) {
-      event.preventDefault();
-      lenis.scrollTo(target, { offset: 0 });
-    }
+/* Smooth-scroll nav anchors through Lenis so they respect easing.
+   [data-skip-smooth] opts out: the skip link needs the native jump, which
+   is what moves keyboard focus into the target. */
+document
+  .querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not([data-skip-smooth])')
+  .forEach((anchor) => {
+    anchor.addEventListener('click', (event) => {
+      const target = anchor.getAttribute('href');
+      if (!target || target === '#') return;
+      if (lenis && document.querySelector(target)) {
+        event.preventDefault();
+        lenis.scrollTo(target, { offset: 0 });
+      }
+    });
   });
-});
 
 /* Section animations. Two motion modes:
    - desktop: sections are pinned scenes (content materializes centered,
@@ -211,5 +215,51 @@ gsap.matchMedia().add(
         },
       });
     }
+
+    /* ---- Keyboard reachability inside pinned stages ---- */
+    /* A pinned stage hides content without removing it from the tab order:
+       scene content fades to opacity 0, carousel cards slide off-screen.
+       Tab does not scroll a pinned element into view (it never left the
+       viewport box), so a keyboard visitor would focus things they cannot
+       see. Move the page to the scroll position where the focused content
+       is actually on screen. */
+    function jumpTo(top: number) {
+      if (lenis) lenis.scrollTo(top, { immediate: true });
+      else window.scrollTo({ top, behavior: 'auto' });
+    }
+
+    function stageScrollTop(stage: HTMLElement, progress: number) {
+      const stageTop = stage.getBoundingClientRect().top + window.scrollY;
+      return stageTop + (stage.offsetHeight - window.innerHeight) * progress;
+    }
+
+    const onFocusIn = (event: FocusEvent) => {
+      const el = event.target as HTMLElement | null;
+      const stage = el?.closest<HTMLElement>('[data-stage]');
+      if (!el || !stage) return;
+
+      if (stage.dataset.stage === 'scene') {
+        const content = stage.querySelector<HTMLElement>('[data-scene-content]');
+        // Halfway through the stage is the hold beat, where opacity is 1
+        if (content && Number(getComputedStyle(content).opacity) < 0.9) {
+          jumpTo(stageScrollTop(stage, 0.5));
+        }
+        return;
+      }
+
+      if (stage !== carouselStage || !carouselTrack) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.right > 0 && rect.left < window.innerWidth) return; // already visible
+      const travel = carouselTrack.scrollWidth - window.innerWidth;
+      if (travel <= 0) return;
+      // Solve for the track offset that parks this card near the left edge
+      const shift = window.innerWidth * 0.08 - rect.left;
+      const currentX = Number(gsap.getProperty(carouselTrack, 'x'));
+      const progress = Math.min(1, Math.max(0, -(currentX + shift) / travel));
+      jumpTo(stageScrollTop(stage, progress));
+    };
+
+    document.addEventListener('focusin', onFocusIn);
+    return () => document.removeEventListener('focusin', onFocusIn);
   }
 );

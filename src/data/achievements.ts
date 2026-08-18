@@ -7,11 +7,18 @@ export interface Achievement {
 
 export const achievements: Achievement[] = [
   {
-    title: 'IT / Web Developer at PT Unicorn Food and Beverages',
-    year: 'Part-time',
+    title: 'Fullstack Developer Intern at PT Unicorn Food and Beverages',
+    year: 'Mar 2026 - Present',
     icon: 'briefcase',
     description:
-      'Building and maintaining web tooling for daily operations alongside full-time studies.',
+      '77+ merged pull requests on PeopleOS, their internal people and culture platform, plus ownership of staging and production deployment.',
+  },
+  {
+    title: 'Best Capstone Project, Dicoding AI Learning Path',
+    year: '2026',
+    icon: 'trophy',
+    description:
+      'Awarded for a backend service that infers student comprehension from quiz assessment results.',
   },
   {
     title: '1st Place, SPORTI Chess Competition',

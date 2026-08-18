@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Claude Code local overrides
+.claude/settings.local.json
+.mcp.json

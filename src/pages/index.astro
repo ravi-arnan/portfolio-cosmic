@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import Loader from '../components/Loader.astro';
 import Nav from '../components/Nav.astro';
-import BlackholeHero from '../components/three/BlackholeHero';
 import Hero from '../components/sections/Hero.astro';
 import About from '../components/sections/About.astro';
 import Work from '../components/sections/Work.astro';
@@ -17,11 +16,10 @@ import Footer from '../components/sections/Footer.astro';
 <Base>
   <Loader />
   <Nav />
-  <!-- Persistent 3D layer: one scene choreographed across the whole page -->
-  <div class="pointer-events-none fixed inset-0 z-0">
-    <BlackholeHero client:only="react" />
-  </div>
-  <main class="relative z-10">
+  <!-- Persistent 3D layer: one scene choreographed across the whole page.
+       Stays empty unless the gate below passes; the hero poster shows through. -->
+  <div id="scene-root" class="pointer-events-none fixed inset-0 z-0"></div>
+  <main id="main" tabindex="-1" class="relative z-10">
     <Hero />
     <About />
     <Work />
@@ -32,4 +30,20 @@ import Footer from '../components/sections/Footer.astro';
     <Contact />
   </main>
   <Footer />
+
+  <script>
+    /* Capability gate for the blackhole scene. It runs before anything from
+       the 3D stack is fetched, so reduced-motion, small-screen, low-memory
+       and no-WebGL2 visitors download neither React nor three.js and keep
+       the static poster instead. */
+    const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
+
+    const canRunScene =
+      !matchMedia('(prefers-reduced-motion: reduce)').matches &&
+      !matchMedia('(max-width: 767px)').matches &&
+      !(memory !== undefined && memory < 4) &&
+      !!document.createElement('canvas').getContext('webgl2');
+
+    if (canRunScene) import('../components/three/mount');
+  </script>
 </Base>

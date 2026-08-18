@@ -36,7 +36,8 @@ if (scrollY > 0) {
 await page.screenshot({ path: outfile });
 
 const hasCanvas = await page.evaluate(() => {
-  const canvas = document.querySelector('#hero canvas');
+  // The scene mounts into the page-wide #scene-root layer, not inside #hero
+  const canvas = document.querySelector('#scene-root canvas');
   return canvas ? `${canvas.clientWidth}x${canvas.clientHeight}` : null;
 });
 

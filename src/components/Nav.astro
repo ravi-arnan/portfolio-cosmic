@@ -117,6 +117,10 @@ const navLinks = [
   const openIcon = toggle?.querySelector('[data-menu-open]');
   const closeIcon = toggle?.querySelector('[data-menu-close]');
 
+  /* The open overlay covers the page, so everything behind it goes inert:
+     without this, Tab walks off the menu into links nobody can see. */
+  const behindMenu = document.querySelectorAll('main, footer');
+
   function setMenu(open: boolean) {
     if (!toggle || !menu) return;
     toggle.setAttribute('aria-expanded', String(open));
@@ -125,6 +129,7 @@ const navLinks = [
     menu.classList.toggle('flex', open);
     openIcon?.classList.toggle('hidden', open);
     closeIcon?.classList.toggle('hidden', !open);
+    behindMenu.forEach((el) => el.toggleAttribute('inert', open));
   }
 
   toggle?.addEventListener('click', () => {

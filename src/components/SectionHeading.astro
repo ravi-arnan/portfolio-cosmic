@@ -2,17 +2,15 @@
 interface Props {
   index: string;
   title: string;
-  id?: string;
 }
 
-const { index, title, id } = Astro.props;
+const { index, title } = Astro.props;
 ---
 
 <div class="mb-14" data-reveal>
   <div class="flex items-baseline gap-4">
     <span class="font-mono text-sm text-ember" aria-hidden="true">{index} //</span>
     <h2
-      id={id}
       class="font-display font-semibold tracking-[-0.02em] text-starlight leading-[1.05]"
       style="font-size: var(--text-section)"
     >
