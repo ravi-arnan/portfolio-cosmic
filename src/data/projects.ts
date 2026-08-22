@@ -21,7 +21,7 @@ export const projects: Project[] = [
   {
     title: 'PeopleOS',
     description:
-      'Internal people and culture platform for a multi-outlet F&B group, built across a multi-repo TypeScript product: React web and PWA, a React Native Android app, a Node.js API, PostgreSQL and Redis. 77+ merged pull requests covering geofenced clock in/out, automated shift scheduling, role-based access control, and push notifications with WhatsApp fallback. I own staging and production on Docker Compose and PM2.',
+      'Internal people and culture platform for a multi-outlet F&B group, built across a multi-repo TypeScript product: React web and PWA, a React Native Android app, a Node.js API, PostgreSQL and Redis. 78 merged pull requests covering geofenced clock in/out, automated shift scheduling, role-based access control, and push notifications with WhatsApp fallback. I owned staging and production on Docker Compose and PM2.',
     tags: ['TypeScript', 'React', 'React Native', 'Node.js', 'PostgreSQL', 'Docker'],
     github: null,
     live: null,

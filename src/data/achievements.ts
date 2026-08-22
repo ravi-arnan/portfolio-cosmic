@@ -7,14 +7,14 @@ export interface Achievement {
 
 export const achievements: Achievement[] = [
   {
-    title: 'Fullstack Developer Intern at PT Unicorn Food and Beverages',
-    year: 'Mar 2026 - Present',
+    title: 'Fullstack Developer Intern at Unicorn Food and Services',
+    year: 'Mar 2026 - Aug 2026',
     icon: 'briefcase',
     description:
-      '77+ merged pull requests on PeopleOS, their internal people and culture platform, plus ownership of staging and production deployment.',
+      '78 merged pull requests on PeopleOS, their internal people and culture platform, plus ownership of staging and production deployment.',
   },
   {
-    title: 'Best Capstone Project, Dicoding AI Learning Path',
+    title: 'Best Capstone Project, Tempa led by Dicoding (Artificial Intelligence)',
     year: '2026',
     icon: 'trophy',
     description:
