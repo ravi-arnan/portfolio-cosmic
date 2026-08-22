@@ -31,10 +31,9 @@ export const projects: Project[] = [
   {
     title: 'Pact',
     description:
-      'On-chain commitment staking for running goals. A group stakes USDC on a distance target and payouts settle from GPS-verified sessions. Settlement needs an oracle multisig co-signature, so a spoofed run never clears on its own, and every stake is a time-locked claimable balance its owner can reclaim. Built solo for the APAC Stellar Hackathon.',
+      'On-chain commitment staking for running goals. A group stakes USDC on a distance target and payouts settle from GPS-verified sessions. Settlement needs an oracle multisig co-signature, so a spoofed run never clears on its own, and every stake is a time-locked claimable balance its owner can reclaim. Built solo as a personal project.',
     tags: ['Next.js 16', 'TypeScript', 'Stellar SDK', 'Web3'],
-    // TODO: repo is still private. Flip this to the URL the moment it goes public.
-    github: null,
+    github: 'https://github.com/ravi-arnan/pact',
     live: null,
   },
   {
