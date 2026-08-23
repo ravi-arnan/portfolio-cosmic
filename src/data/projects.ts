@@ -1,5 +1,10 @@
 import type { ImageMetadata } from 'astro';
 import soar from '../assets/soar.png';
+import pact from '../assets/pact.png';
+import stkiRag from '../assets/stki-rag.png';
+import agenticOs from '../assets/agentic-os.png';
+import indot5 from '../assets/indot5-quizgen.png';
+import apexStradale from '../assets/apex-stradale.png';
 import asahlagi from '../assets/asahlagi.png';
 import wastra from '../assets/wastra.png';
 
@@ -33,24 +38,27 @@ export const projects: Project[] = [
     description:
       'On-chain commitment staking for running goals. A group stakes USDC on a distance target and payouts settle from GPS-verified sessions. Settlement needs an oracle multisig co-signature, so a spoofed run never clears on its own, and every stake is a time-locked claimable balance its owner can reclaim. Built solo as a personal project.',
     tags: ['Next.js 16', 'TypeScript', 'Stellar SDK', 'Web3'],
+    image: pact,
     github: 'https://github.com/ravi-arnan/pact',
     live: null,
   },
   {
     title: 'RAG for Indonesian Legal & Tax Documents',
     description:
-      'Retrieval-augmented generation over Indonesian tax regulation PDFs. 776 ingested chunks, IndoBERT embeddings running CPU-only, generation served through an OpenAI-compatible interface. Chunking follows the numbered article structure instead of a fixed window, and a golden-query suite catches retrieval regressions before they reach an answer.',
+      'Retrieval-augmented generation over Indonesian tax regulation PDFs. 707 ingested chunks, IndoBERT embeddings running CPU-only, generation served through an OpenAI-compatible interface. Chunking follows the numbered article structure instead of a fixed window, and a golden-query suite catches retrieval regressions before they reach an answer.',
     tags: ['Python', 'RAG', 'IndoBERT', 'NLP'],
+    image: stkiRag,
     github: 'https://github.com/ravi-arnan/stki-rag',
     live: null,
   },
   {
-    title: 'Agentic OS',
+    title: 'IndoT5 Quiz Generator',
     description:
-      'Local web dashboard wrapping a headless coding agent, with four one-click automations: daily briefing, repo and inbox status sweep, session journaling, and quick capture. Tracks API cost and productivity per session, which turned out to be the part that actually changed how I work.',
-    tags: ['TypeScript', 'LLM Agents', 'Developer Tools'],
-    github: 'https://github.com/ravi-arnan/agentic-os',
-    live: null,
+      'Indonesian question-generation model, fine-tuned from Wikidepia/IndoT5-base and published to the Hugging Face Hub with open weights. This is the model layer under Asahlagi, and the whole path is mine end to end: a 0.2B-parameter T5 encoder-decoder on the Hub, an inference Space that serves it, a FastAPI backend that calls the Space, and a React frontend on top.',
+    tags: ['PyTorch', 'Transformers', 'T5', 'Fine-tuning'],
+    image: indot5,
+    github: 'https://github.com/ravi-arnan/TempaCapstoneProject/tree/main/backend/ml',
+    live: 'https://huggingface.co/raviarnan/indot5-quizgen-asahlagi',
   },
   {
     title: 'Asahlagi',
@@ -62,10 +70,20 @@ export const projects: Project[] = [
     live: null,
   },
   {
+    title: 'Agentic OS',
+    description:
+      'Local web dashboard wrapping a headless coding agent, with five one-click automations: daily briefing, repo and inbox status sweep, session journaling, quick capture, and a weekly review. Tracks API cost and productivity per session, which turned out to be the part that actually changed how I work.',
+    tags: ['TypeScript', 'LLM Agents', 'Developer Tools'],
+    image: agenticOs,
+    github: 'https://github.com/ravi-arnan/agentic-os',
+    live: null,
+  },
+  {
     title: 'Apex Stradale',
     description:
       'A 3D car showcase in React Three Fiber, built to hold a fixed frame budget on mid-range phones rather than to look good on my machine. Geometry stays simplified and the materials do the work the mesh used to.',
     tags: ['React Three Fiber', 'WebGL', 'TypeScript'],
+    image: apexStradale,
     github: 'https://github.com/ravi-arnan/apex-stradale',
     live: 'https://apex-stradale.vercel.app',
   },
